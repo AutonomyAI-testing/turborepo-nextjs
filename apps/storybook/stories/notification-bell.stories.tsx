@@ -9,6 +9,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@workspace/design-system/components/ui/dropdown-menu";
+import { cn } from "@workspace/design-system/lib/utils";
 import { Bell } from "lucide-react";
 import { useState } from "react";
 
@@ -54,7 +55,7 @@ function NotificationItem({
 			aria-label={`Mark ${notification.title} as read`}
 		>
 			<div className="flex items-start justify-between">
-				<p className={`text-sm ${!notification.read ? "font-medium" : ""}`}>
+				<p className={cn("text-sm", !notification.read && "font-medium")}>
 					{notification.title}
 				</p>
 				{!notification.read && (

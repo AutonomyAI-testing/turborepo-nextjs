@@ -75,7 +75,9 @@ const PRICING_TIERS: PricingTier[] = [
 ];
 
 type PricingTableProps = {
+	/** Array of pricing tiers to display. Defaults to PRICING_TIERS if not provided. */
 	tiers?: PricingTier[];
+	/** Callback fired when a CTA button is clicked. Receives the tier name to identify which plan was selected. */
 	onCtaClick?: (tierName: string) => void;
 };
 
@@ -85,6 +87,7 @@ export const PricingTable = ({
 }: PricingTableProps) => {
 	return (
 		<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+			{/* Tiers are typically stable/pre-defined, so using tier.name as key is safe */}
 			{tiers.map((tier) => (
 				<Card
 					key={tier.name}
@@ -104,6 +107,7 @@ export const PricingTable = ({
 						<CardDescription>{tier.description}</CardDescription>
 						<div className="mt-4">
 							<span className="text-4xl font-bold">{tier.price}</span>
+							{/* Only show /month suffix for plans with numeric pricing */}
 							{tier.price !== "Custom" && (
 								<span className="text-muted-foreground text-sm">/month</span>
 							)}

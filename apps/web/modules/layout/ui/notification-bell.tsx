@@ -21,7 +21,7 @@ type Notification = {
 	read: boolean;
 };
 
-// Temporary mock notifications for development. Should be replaced with real data source.
+// TODO: Replace with real data source from API or state management
 const MOCK_NOTIFICATIONS: Notification[] = [
 	{
 		id: "1",

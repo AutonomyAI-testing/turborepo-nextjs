@@ -12,7 +12,6 @@ import {
 import { Bell } from "lucide-react";
 import { useState } from "react";
 
-// Types
 type Notification = {
 	id: string;
 	title: string;
@@ -40,7 +39,6 @@ function getRelativeTime(date: Date): string {
 	return date.toLocaleDateString();
 }
 
-// Notification Item component
 function NotificationItem({
 	notification,
 	onMarkAsRead,
@@ -70,7 +68,6 @@ function NotificationItem({
 	);
 }
 
-// NotificationBell component (recreated for Storybook)
 const NotificationBell = ({
 	initialNotifications,
 }: {

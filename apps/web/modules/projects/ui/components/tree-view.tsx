@@ -61,15 +61,18 @@ const Tree = ({ item, onSelect, selectedValue, parentPath }: TreeProps) => {
 				</CollapsibleTrigger>
 				<CollapsibleContent>
 					<SidebarMenuSub>
-						{items.map((subItem, index) => (
-							<Tree
-								item={subItem}
-								key={index}
-								onSelect={onSelect}
-								parentPath={currentPath}
-								selectedValue={selectedValue}
-							/>
-						))}
+						{items.map((subItem) => {
+							const subItemName = Array.isArray(subItem) ? subItem[0] : subItem;
+							return (
+								<Tree
+									item={subItem}
+									key={`${currentPath}/${subItemName}`}
+									onSelect={onSelect}
+									parentPath={currentPath}
+									selectedValue={selectedValue}
+								/>
+							);
+						})}
 					</SidebarMenuSub>
 				</CollapsibleContent>
 			</Collapsible>
@@ -91,15 +94,18 @@ export const TreeView = ({ data, onSelect, value }: Props) => {
 					<SidebarGroup>
 						<SidebarGroupContent>
 							<SidebarMenu>
-								{data.map((item, index) => (
-									<Tree
-										item={item}
-										key={index}
-										onSelect={onSelect}
-										parentPath=""
-										selectedValue={value}
-									/>
-								))}
+								{data.map((item) => {
+									const itemName = Array.isArray(item) ? item[0] : item;
+									return (
+										<Tree
+											item={item}
+											key={itemName}
+											onSelect={onSelect}
+											parentPath=""
+											selectedValue={value}
+										/>
+									);
+								})}
 							</SidebarMenu>
 						</SidebarGroupContent>
 					</SidebarGroup>

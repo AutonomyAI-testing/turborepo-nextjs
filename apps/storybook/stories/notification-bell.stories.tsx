@@ -1,168 +1,178 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useState } from "react";
-import { Bell } from "lucide-react";
 import { Badge } from "@workspace/design-system/components/ui/badge";
 import { Button } from "@workspace/design-system/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
 } from "@workspace/design-system/components/ui/dropdown-menu";
+import { Bell } from "lucide-react";
+import { useState } from "react";
 
 // Types
 type Notification = {
-  id: string;
-  title: string;
-  timestamp: Date;
-  read: boolean;
+	id: string;
+	title: string;
+	timestamp: Date;
+	read: boolean;
 };
 
-// Helper function to get relative time
+/**
+ * Formats a date into a human-readable relative time format.
+ * Returns strings like "5 min ago", "2 hours ago", etc.
+ * Falls back to locale date string for dates older than 7 days.
+ */
 function getRelativeTime(date: Date): string {
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffMins = Math.floor(diffMs / 60_000);
-  const diffHours = Math.floor(diffMs / 3600_000);
-  const diffDays = Math.floor(diffMs / 86400_000);
+	const now = new Date();
+	const diffMs = now.getTime() - date.getTime();
+	const diffMins = Math.floor(diffMs / 60_000);
+	const diffHours = Math.floor(diffMs / 3600_000);
+	const diffDays = Math.floor(diffMs / 86400_000);
 
-  if (diffMins < 1) return "just now";
-  if (diffMins < 60) return `${diffMins} min ago`;
-  if (diffHours < 24)
-    return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
-  if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
+	if (diffMins < 1) return "just now";
+	if (diffMins < 60) return `${diffMins} min ago`;
+	if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
+	if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
 
-  return date.toLocaleDateString();
+	return date.toLocaleDateString();
 }
 
 // Notification Item component
 function NotificationItem({
-  notification,
-  onMarkAsRead,
+	notification,
+	onMarkAsRead,
 }: {
-  notification: Notification;
-  onMarkAsRead: (id: string) => void;
+	notification: Notification;
+	onMarkAsRead: (id: string) => void;
 }) {
-  return (
-    <div
-      className="px-2 py-1.5 hover:bg-accent cursor-pointer rounded-sm transition-colors"
-      onClick={() => onMarkAsRead(notification.id)}
-      data-slot="notification-item"
-    >
-      <div className="flex items-start justify-between">
-        <p className={`text-sm ${!notification.read ? "font-medium" : ""}`}>
-          {notification.title}
-        </p>
-        {!notification.read && (
-          <div className="ml-2 mt-0.5 size-2 bg-primary rounded-full shrink-0" />
-        )}
-      </div>
-      <p className="text-xs text-muted-foreground mt-1">
-        {getRelativeTime(notification.timestamp)}
-      </p>
-    </div>
-  );
+	return (
+		<button
+			type="button"
+			onClick={() => onMarkAsRead(notification.id)}
+			className="w-full px-2 py-1.5 text-left hover:bg-accent cursor-pointer rounded-sm transition-colors"
+			aria-label={`Mark ${notification.title} as read`}
+		>
+			<div className="flex items-start justify-between">
+				<p className={`text-sm ${!notification.read ? "font-medium" : ""}`}>
+					{notification.title}
+				</p>
+				{!notification.read && (
+					<div className="ml-2 mt-0.5 size-2 bg-primary rounded-full shrink-0" />
+				)}
+			</div>
+			<p className="text-xs text-muted-foreground mt-1">
+				{getRelativeTime(notification.timestamp)}
+			</p>
+		</button>
+	);
 }
 
 // NotificationBell component (recreated for Storybook)
-const NotificationBell = ({ initialNotifications }: { initialNotifications?: Notification[] }) => {
-  const defaultNotifications: Notification[] = [
-    {
-      id: "1",
-      title: "New message from team",
-      timestamp: new Date(Date.now() - 5 * 60_000),
-      read: false,
-    },
-    {
-      id: "2",
-      title: "Project update available",
-      timestamp: new Date(Date.now() - 2 * 3600_000),
-      read: false,
-    },
-    {
-      id: "3",
-      title: "Welcome to the platform",
-      timestamp: new Date(Date.now() - 24 * 3600_000),
-      read: true,
-    },
-    {
-      id: "4",
-      title: "Your profile was updated",
-      timestamp: new Date(Date.now() - 48 * 3600_000),
-      read: true,
-    },
-    {
-      id: "5",
-      title: "New feature released",
-      timestamp: new Date(Date.now() - 72 * 3600_000),
-      read: true,
-    },
-  ];
+const NotificationBell = ({
+	initialNotifications,
+}: {
+	initialNotifications?: Notification[];
+}) => {
+	const defaultNotifications: Notification[] = [
+		{
+			id: "1",
+			title: "New message from team",
+			timestamp: new Date(Date.now() - 5 * 60_000),
+			read: false,
+		},
+		{
+			id: "2",
+			title: "Project update available",
+			timestamp: new Date(Date.now() - 2 * 3600_000),
+			read: false,
+		},
+		{
+			id: "3",
+			title: "Welcome to the platform",
+			timestamp: new Date(Date.now() - 24 * 3600_000),
+			read: true,
+		},
+		{
+			id: "4",
+			title: "Your profile was updated",
+			timestamp: new Date(Date.now() - 48 * 3600_000),
+			read: true,
+		},
+		{
+			id: "5",
+			title: "New feature released",
+			timestamp: new Date(Date.now() - 72 * 3600_000),
+			read: true,
+		},
+	];
 
-  const [notifications, setNotifications] = useState(initialNotifications ?? defaultNotifications);
+	const [notifications, setNotifications] = useState(
+		initialNotifications ?? defaultNotifications,
+	);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
+	const unreadCount = notifications.filter((n) => !n.read).length;
 
-  const handleMarkAsRead = (id: string) => {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
-    );
-  };
+	const handleMarkAsRead = (id: string) => {
+		setNotifications((prev) =>
+			prev.map((n) => (n.id === id ? { ...n, read: true } : n)),
+		);
+	};
 
-  const handleMarkAllAsRead = () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
-  };
+	const handleMarkAllAsRead = () => {
+		setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+	};
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Notifications"
-          className="relative"
-        >
-          <Bell className="size-4" />
-          {unreadCount > 0 && (
-            <Badge
-              variant="destructive"
-              className="absolute -top-1 -right-1 text-xs"
-              aria-label={`${unreadCount} unread notifications`}
-            >
-              {unreadCount}
-            </Badge>
-          )}
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {notifications.length === 0 ? (
-          <div className="px-2 py-8 text-center text-sm text-muted-foreground">
-            No notifications
-          </div>
-        ) : (
-          <>
-            {notifications.map((notification) => (
-              <NotificationItem
-                key={notification.id}
-                notification={notification}
-                onMarkAsRead={handleMarkAsRead}
-              />
-            ))}
-            <DropdownMenuSeparator />
-            {unreadCount > 0 && (
-              <DropdownMenuItem onClick={handleMarkAllAsRead}>
-                Mark all as read
-              </DropdownMenuItem>
-            )}
-          </>
-        )}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button
+					variant="ghost"
+					size="icon"
+					aria-label="Notifications"
+					className="relative"
+				>
+					<Bell className="size-4" />
+					{unreadCount > 0 && (
+						<Badge
+							variant="destructive"
+							className="absolute -top-1 -right-1 text-xs"
+							aria-label={`${unreadCount} unread notifications`}
+						>
+							{unreadCount}
+						</Badge>
+					)}
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="end">
+				<DropdownMenuLabel>Notifications</DropdownMenuLabel>
+				<DropdownMenuSeparator />
+				{notifications.length === 0 ? (
+					<div className="px-2 py-8 text-center text-sm text-muted-foreground">
+						No notifications
+					</div>
+				) : (
+					<>
+						{notifications.map((notification) => (
+							<NotificationItem
+								key={notification.id}
+								notification={notification}
+								onMarkAsRead={handleMarkAsRead}
+							/>
+						))}
+						<DropdownMenuSeparator />
+						{unreadCount > 0 && (
+							<DropdownMenuItem onClick={handleMarkAllAsRead}>
+								Mark all as read
+							</DropdownMenuItem>
+						)}
+					</>
+				)}
+			</DropdownMenuContent>
+		</DropdownMenu>
+	);
 };
 
 /**
@@ -170,12 +180,12 @@ const NotificationBell = ({ initialNotifications }: { initialNotifications?: Not
  * and a dropdown with notification items.
  */
 const meta = {
-  title: "layout/NotificationBell",
-  component: NotificationBell,
-  tags: ["autodocs"],
-  parameters: {
-    layout: "centered",
-  },
+	title: "layout/NotificationBell",
+	component: NotificationBell,
+	tags: ["autodocs"],
+	parameters: {
+		layout: "centered",
+	},
 } satisfies Meta<typeof NotificationBell>;
 
 export default meta;
@@ -192,75 +202,75 @@ export const Default: Story = {};
  * State with no unread notifications - badge is hidden.
  */
 export const AllRead: Story = {
-  args: {
-    initialNotifications: [
-      {
-        id: "1",
-        title: "New message from team",
-        timestamp: new Date(Date.now() - 5 * 60_000),
-        read: true,
-      },
-      {
-        id: "2",
-        title: "Project update available",
-        timestamp: new Date(Date.now() - 2 * 3600_000),
-        read: true,
-      },
-      {
-        id: "3",
-        title: "Welcome to the platform",
-        timestamp: new Date(Date.now() - 24 * 3600_000),
-        read: true,
-      },
-    ],
-  },
+	args: {
+		initialNotifications: [
+			{
+				id: "1",
+				title: "New message from team",
+				timestamp: new Date(Date.now() - 5 * 60_000),
+				read: true,
+			},
+			{
+				id: "2",
+				title: "Project update available",
+				timestamp: new Date(Date.now() - 2 * 3600_000),
+				read: true,
+			},
+			{
+				id: "3",
+				title: "Welcome to the platform",
+				timestamp: new Date(Date.now() - 24 * 3600_000),
+				read: true,
+			},
+		],
+	},
 };
 
 /**
  * State with empty notifications list.
  */
 export const Empty: Story = {
-  args: {
-    initialNotifications: [],
-  },
+	args: {
+		initialNotifications: [],
+	},
 };
 
 /**
  * State with many unread notifications.
  */
 export const ManyUnread: Story = {
-  args: {
-    initialNotifications: [
-      {
-        id: "1",
-        title: "New message from team",
-        timestamp: new Date(Date.now() - 5 * 60_000),
-        read: false,
-      },
-      {
-        id: "2",
-        title: "Project update available",
-        timestamp: new Date(Date.now() - 2 * 3600_000),
-        read: false,
-      },
-      {
-        id: "3",
-        title: "Welcome to the platform",
-        timestamp: new Date(Date.now() - 24 * 3600_000),
-        read: false,
-      },
-      {
-        id: "4",
-        title: "Your profile was updated",
-        timestamp: new Date(Date.now() - 48 * 3600_000),
-        read: false,
-      },
-      {
-        id: "5",
-        title: "New feature released",
-        timestamp: new Date(Date.now() - 72 * 3600_000),
-        read: false,
-      },
-    ],
-  },
+	args: {
+		initialNotifications: [
+			{
+				id: "1",
+				title: "New message from team",
+				timestamp: new Date(Date.now() - 5 * 60_000),
+				read: false,
+			},
+			{
+				id: "2",
+				title: "Project update available",
+				timestamp: new Date(Date.now() - 2 * 3600_000),
+				read: false,
+			},
+			{
+				id: "3",
+				title: "Welcome to the platform",
+				timestamp: new Date(Date.now() - 24 * 3600_000),
+				read: false,
+			},
+			{
+				id: "4",
+				title: "Your profile was updated",
+				timestamp: new Date(Date.now() - 48 * 3600_000),
+				read: false,
+			},
+			{
+				id: "5",
+				title: "New feature released",
+				timestamp: new Date(Date.now() - 72 * 3600_000),
+				read: false,
+			},
+		],
+	},
 };

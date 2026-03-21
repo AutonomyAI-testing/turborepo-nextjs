@@ -24,6 +24,9 @@ type Notification = {
  * Formats a date into a human-readable relative time format.
  * Returns strings like "5 min ago", "2 hours ago", etc.
  * Falls back to locale date string for dates older than 7 days.
+ *
+ * Note: This function creates a new Date() on every call, which is acceptable
+ * for UI display purposes but should not be used in performance-critical loops.
  */
 function getRelativeTime(date: Date): string {
 	const now = new Date();

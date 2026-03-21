@@ -21,7 +21,8 @@ type Notification = {
 	read: boolean;
 };
 
-// TODO: Replace MOCK_NOTIFICATIONS with real data from API or state management
+// Mock data for demonstration. In production, this should be replaced with real
+// notification data from an API or state management system (e.g., useQuery, Redux).
 const MOCK_NOTIFICATIONS: Notification[] = [
 	{
 		id: "1",
@@ -59,6 +60,9 @@ const MOCK_NOTIFICATIONS: Notification[] = [
  * Formats a date into a human-readable relative time format.
  * Returns strings like "5 min ago", "2 hours ago", etc.
  * Falls back to locale date string for dates older than 7 days.
+ *
+ * Note: This function creates a new Date() on every call, which is acceptable
+ * for UI display purposes but should not be used in performance-critical loops.
  */
 function getRelativeTime(date: Date): string {
 	const now = new Date();

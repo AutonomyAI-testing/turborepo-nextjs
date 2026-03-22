@@ -3,10 +3,13 @@
 import { PricingTable } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import Image from "next/image";
+import { useState } from "react";
+import { PricingToggle } from "@/modules/home/ui/components/pricing-toggle";
 import { useCurrentTheme } from "@/hooks/use-current-theme";
 
 export default function Page() {
 	const currentTheme = useCurrentTheme();
+	const [isAnnual, setIsAnnual] = useState(false);
 
 	return (
 		<div className="mx-auto flex w-full max-w-3xl flex-col">
@@ -24,6 +27,12 @@ export default function Page() {
 				<p className="text-center text-muted-foreground text-sm md:text-base">
 					Choose the plan that best fits your needs.
 				</p>
+				<div className="flex justify-center py-6">
+					<PricingToggle
+						isAnnual={isAnnual}
+						onBillingPeriodChange={setIsAnnual}
+					/>
+				</div>
 				<PricingTable
 					appearance={{
 						baseTheme: currentTheme === "dark" ? dark : undefined,

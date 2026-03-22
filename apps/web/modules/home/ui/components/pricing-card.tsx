@@ -20,6 +20,15 @@ export type PricingCardProps = {
 	isHighlighted?: boolean;
 	buttonText?: string;
 	children?: ReactNode;
+	isAnnual?: boolean;
+};
+
+const calculateAnnualPrice = (
+	monthlyPrice: number,
+): number => {
+	// Apply 20% discount and multiply by 12 months
+	const discountedMonthlyPrice = monthlyPrice * 0.8;
+	return discountedMonthlyPrice * 12;
 };
 
 export const PricingCard = ({
@@ -31,6 +40,7 @@ export const PricingCard = ({
 	isHighlighted = false,
 	buttonText = "Subscribe",
 	children,
+	isAnnual = false,
 }: PricingCardProps) => {
 	return (
 		<Card
@@ -47,11 +57,19 @@ export const PricingCard = ({
 				<div className="flex items-baseline gap-2">
 					<span className="text-4xl font-bold">
 						{typeof price === "number"
-							? `$${price.toFixed(2)}`
+							? `$${(
+									isAnnual
+										? calculateAnnualPrice(
+												price,
+										  )
+										: price
+							  ).toFixed(2)}`
 							: price}
 					</span>
 					{typeof price === "number" && (
-						<span className="text-muted-foreground">/month</span>
+						<span className="text-muted-foreground">
+							/{isAnnual ? "year" : "month"}
+						</span>
 					)}
 				</div>
 

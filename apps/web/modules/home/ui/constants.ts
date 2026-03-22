@@ -1,0 +1,57 @@
+import type { PricingTier } from "./types";
+
+export const PRICING_TIERS: PricingTier[] = [
+	{
+		id: "free",
+		name: "Free",
+		price: 0,
+		billing: null,
+		description: "Get started for free",
+		highlighted: false,
+		ctaText: "Get Started",
+		features: [
+			"Up to 3 projects",
+			"Basic AI features",
+			"Community support",
+			"1 GB storage",
+			"Standard performance",
+		],
+	},
+	{
+		id: "pro",
+		name: "Pro",
+		price: 29,
+		billing: "month",
+		description: "For professional developers",
+		highlighted: true,
+		ctaText: "Start Free Trial",
+		features: [
+			"Unlimited projects",
+			"Advanced AI features",
+			"Priority support",
+			"100 GB storage",
+			"High performance",
+			"Custom domains",
+			"Team collaboration",
+		],
+	},
+	{
+		id: "enterprise",
+		name: "Enterprise",
+		price: 99,
+		billing: "month",
+		description: "For large teams and organizations",
+		highlighted: false,
+		ctaText: "Contact Sales",
+		features: [
+			"Unlimited everything",
+			"Custom AI models",
+			"24/7 dedicated support",
+			"Unlimited storage",
+			"Enterprise performance",
+			"Advanced security",
+			"SSO & SAML",
+			"Custom SLA",
+		],
+	},
+];

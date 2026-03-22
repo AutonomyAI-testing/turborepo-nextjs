@@ -22,7 +22,9 @@ export const Counter = () => {
 		<Card className="w-full max-w-sm">
 			<CardHeader>
 				<CardTitle>Counter</CardTitle>
-				<CardDescription>Simple counter with increment and decrement</CardDescription>
+				<CardDescription>
+					Simple counter with increment and decrement
+				</CardDescription>
 			</CardHeader>
 			<CardContent className="flex flex-col items-center gap-8">
 				<div className="text-6xl font-bold text-primary">{count}</div>
@@ -36,21 +38,12 @@ export const Counter = () => {
 						<Minus className="size-5" />
 						Decrement
 					</Button>
-					<Button
-						onClick={increment}
-						size="lg"
-						className="gap-2"
-					>
+					<Button onClick={increment} size="lg" className="gap-2">
 						<Plus className="size-5" />
 						Increment
 					</Button>
 				</div>
-				<Button
-					onClick={reset}
-					size="sm"
-					variant="ghost"
-					className="w-full"
-				>
+				<Button onClick={reset} size="sm" variant="ghost" className="w-full">
 					Reset
 				</Button>
 			</CardContent>
